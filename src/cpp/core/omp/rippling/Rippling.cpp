@@ -50,7 +50,6 @@ void RipplingFunctionalImage::refreshAll(const DomaineMaths& domainNew){
 	for(int j = 1; j <= w; ++j){
 	    float c = color(x,y);
 
-	    //TODO Verify if neccessary to use the calibration
 	    setRGBA(i, j, c, c, c);
 
 	    x += dx;
