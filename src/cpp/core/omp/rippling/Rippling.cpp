@@ -8,9 +8,9 @@
 #include "GLImageFonctionelSelections.h"
 #include "CalibreurCudas.h"
 
-class RiplingFunctionalImage : public ImageFonctionelSelectionMOOs {
+class RipplingFunctionalImage : public ImageFonctionelSelectionMOOs {
     public:
-	RiplingFunctionalImage(int m, int n, DomaineMaths domain);
+	RipplingFunctionalImage(int m, int n, DomaineMaths domain);
 
 	void setT(float t);
 
@@ -26,17 +26,17 @@ class RiplingFunctionalImage : public ImageFonctionelSelectionMOOs {
 	float t;
 };
 
-RiplingFunctionalImage::RiplingFunctionalImage(int m, int n, DomaineMaths domain) : ImageFonctionelSelectionMOOs(m,n,domain), t(1) {
+RipplingFunctionalImage::RipplingFunctionalImage(int m, int n, DomaineMaths domain) : ImageFonctionelSelectionMOOs(m,n,domain), t(1) {
     onDomaineChangePerformed(domain);
 }
 
-void RiplingFunctionalImage::setT(float newT){
+void RipplingFunctionalImage::setT(float newT){
     t = newT;
 
     refreshAll(getCurrentDomaine());
 }
 
-void RiplingFunctionalImage::refreshAll(const DomaineMaths& domainNew){
+void RipplingFunctionalImage::refreshAll(const DomaineMaths& domainNew){
     int w = getW();
     int h = getH();
 
@@ -60,27 +60,27 @@ void RiplingFunctionalImage::refreshAll(const DomaineMaths& domainNew){
     }
 }
 
-void RiplingFunctionalImage::onDomaineChangePerformed(const DomaineMaths& domainNew){
+void RipplingFunctionalImage::onDomaineChangePerformed(const DomaineMaths& domainNew){
     refreshAll(domainNew);
 }
 
-float RiplingFunctionalImage::color(float x, float y){
+float RipplingFunctionalImage::color(float x, float y){
     float p1 = cos(d(x,y) / (float)10 -(t / (float)7));
     float p2 = d(x,y) / 10 + 1;
     float mul = p1 / p2;
     return 128 + 127 * mul;
 }
 
-float RiplingFunctionalImage::d(float x, float y){
+float RipplingFunctionalImage::d(float x, float y){
     float fx = x - (getW() / 2);
     float fy = y - (getH() / 2);
 
     return sqrt(fx * fx + fy * fy);
 }
 
-class RiplingGLImage : public GLImageFonctionelSelections {
+class RipplingGLImage : public GLImageFonctionelSelections {
     public:
-	RiplingGLImage(RiplingFunctionalImage *ptrImageFonctionel);
+	RipplingGLImage(RipplingFunctionalImage *ptrImageFonctionel);
 
     private:
 	float t;
@@ -88,10 +88,10 @@ class RiplingGLImage : public GLImageFonctionelSelections {
 
 	void idleFunc();
 
-	RiplingFunctionalImage* image;
+	RipplingFunctionalImage* image;
 };
 
-RiplingGLImage::RiplingGLImage(RiplingFunctionalImage *ptrImageFonctionel) : GLImageFonctionelSelections(ptrImageFonctionel), image(ptrImageFonctionel) {
+RipplingGLImage::RipplingGLImage(RipplingFunctionalImage *ptrImageFonctionel) : GLImageFonctionelSelections(ptrImageFonctionel), image(ptrImageFonctionel) {
     t = 1;
 
     float PI = atan(1) * 4;
@@ -99,7 +99,7 @@ RiplingGLImage::RiplingGLImage(RiplingFunctionalImage *ptrImageFonctionel) : GLI
     dt = 2 * PI / (float) 36;//00;
 }
 
-void RiplingGLImage::idleFunc(){
+void RipplingGLImage::idleFunc(){
     t += dt;
     image->setT(t);
     updateView();
@@ -121,8 +121,8 @@ extern int launchApplication(){
     int w = 600;
     int h = 600;
 
-    RiplingFunctionalImage* functionalImage = new RiplingFunctionalImage(w,h,domain);
-    RiplingGLImage* functionSelections = new RiplingGLImage(functionalImage);
+    RipplingFunctionalImage* functionalImage = new RipplingFunctionalImage(w,h,domain);
+    RipplingGLImage* functionSelections = new RipplingGLImage(functionalImage);
 
     GLUTWindowManagers* windowManager = GLUTWindowManagers::getInstance();
     windowManager->createWindow(functionSelections);

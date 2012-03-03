@@ -1,18 +1,9 @@
-# Version 0.0.2 - 27.01.2012
-#
-# Cedric.Bilat@he-arc.ch
-#
-# Contrainte
-#
-#	Dans les d�finitions de variables ci-dessous, ne laisser jamais d'espace � la fin!!!
-#
-
 #########
 #Project#
 #########
 
 #Name target,without extension
-TARGET_NAME:=RiplingOMP
+TARGET_NAME:=RipplingOMP
 
 #EXE
 #SHARED_LIB

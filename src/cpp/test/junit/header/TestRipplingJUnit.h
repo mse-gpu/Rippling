@@ -3,11 +3,11 @@
 
 #include "cpptest.h"
 
-class TestRiplingJUnit : public Test::Suite
+class TestRipplingJUnit : public Test::Suite
     {
     public:
 
-TestRiplingJUnit(void);
+TestRipplingJUnit(void);
 
     private:
 

@@ -2,7 +2,7 @@
 #include <iostream>
 
 #include "cppTest+.h"
-#include "TestRiplingJUnit.h"
+#include "TestRipplingJUnit.h"
 
 using std::cout;
 using std::endl;
