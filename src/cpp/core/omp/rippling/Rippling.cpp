@@ -65,10 +65,7 @@ void RipplingFunctionalImage::onDomaineChangePerformed(const DomaineMaths& domai
 }
 
 float RipplingFunctionalImage::color(float x, float y){
-    float p1 = cos(d(x,y) / (float)10 -(t / (float)7));
-    float p2 = d(x,y) / 10 + 1;
-    float mul = p1 / p2;
-    return 128 + 127 * mul;
+    return 128 + 127 * ((cos(d(x,y) / (float)10 -(t / (float)7))) / (d(x,y) / 10 + 1));
 }
 
 float RipplingFunctionalImage::d(float x, float y){
@@ -94,9 +91,8 @@ class RipplingGLImage : public GLImageFonctionelSelections {
 RipplingGLImage::RipplingGLImage(RipplingFunctionalImage *ptrImageFonctionel) : GLImageFonctionelSelections(ptrImageFonctionel), image(ptrImageFonctionel) {
     t = 1;
 
-    float PI = atan(1) * 4;
-
-    dt = 2 * PI / (float) 36;//00;
+    //Define the speed of the animation
+    dt = 2 * (atan(1) * 4) / (float) 36;
 }
 
 void RipplingGLImage::idleFunc(){
@@ -111,17 +107,11 @@ extern int launchApplication(){
     char** argv = NULL;
     GLUTWindowManagers::init(0, argv);
 
-    float xMin = 0;
-    float xMax = 600;
-    float yMin = 0;
-    float yMax = 600;
+    int dim = 600;
 
-    DomaineMaths domain(xMin, yMin, xMax - xMin, yMax - yMin);
+    DomaineMaths domain(0, 0, dim, dim);
    
-    int w = 600;
-    int h = 600;
-
-    RipplingFunctionalImage* functionalImage = new RipplingFunctionalImage(w,h,domain);
+    RipplingFunctionalImage* functionalImage = new RipplingFunctionalImage(dim, dim, domain);
     RipplingGLImage* functionSelections = new RipplingGLImage(functionalImage);
 
     GLUTWindowManagers* windowManager = GLUTWindowManagers::getInstance();
