@@ -23,58 +23,40 @@ class RiplingFunctionalImage : public ImageFonctionelSelectionMOOs {
 
 	void refreshAll(const DomaineMaths& domainNew);
 
-	void findMinMax();
-
-	float fMin;
-	float fMax;
-	float hueMin;
-	float hueMax;
 	float t;
-
-	CalibreurCudas* calibreur;
 };
 
 RiplingFunctionalImage::RiplingFunctionalImage(int m, int n, DomaineMaths domain) : ImageFonctionelSelectionMOOs(m,n,domain), t(1) {
-    //findMinMax();
-
-    hueMin = 0.7;
-    hueMax = 0;
-
-    //calibreur = new CalibreurCudas(fMin, fMax, hueMin, hueMax);
     onDomaineChangePerformed(domain);
 }
 
 void RiplingFunctionalImage::setT(float newT){
     t = newT;
 
-    std::cout << "Changed t to " << t << std::endl;
-
     refreshAll(getCurrentDomaine());
 }
 
 void RiplingFunctionalImage::refreshAll(const DomaineMaths& domainNew){
-    std::cout << "refresh all" << std::endl;
-
     int w = getW();
     int h = getH();
 
     float dx = (float) (domainNew.dx / (float) w);
-        float dy = (float) (domainNew.dy / (float) h);
-        float y = domainNew.y0;
+    float dy = (float) (domainNew.dy / (float) h);
+    float y = domainNew.y0;
 
-        for(int i = 1; i <= h; ++i){
-    	float x = domainNew.x0;
+    for(int i = 1; i <= h; ++i){
+	float x = domainNew.x0;
 
-    	for(int j = 1; j <= w; ++j){
-    	    float c = color(x,y);
+	for(int j = 1; j <= w; ++j){
+	    float c = color(x,y);
 
-    	    //TODO Verify if neccessary to use the calibration
-    	    setRGBA(i, j, c, c, c);
+	    //TODO Verify if neccessary to use the calibration
+	    setRGBA(i, j, c, c, c);
 
-    	    x += dx;
-    	}
+	    x += dx;
+	}
 
-    	y += dy;
+	y += dy;
     }
 }
 
@@ -90,37 +72,10 @@ float RiplingFunctionalImage::color(float x, float y){
 }
 
 float RiplingFunctionalImage::d(float x, float y){
-    float fx = x - getW() / (float) 2;
-    float fy = y - getH() / (float) 2;
+    float fx = x - (getW() / 2);
+    float fy = y - (getH() / 2);
 
     return sqrt(fx * fx + fy * fy);
-}
-
-void RiplingFunctionalImage::findMinMax(){
-    int w = getW();
-    int h = getH();
-
-    DomaineMaths currentDomain = getCurrentDomaine();
-    float dx = (float) (currentDomain.dx / (float) w);
-    float dy = (float) (currentDomain.dy / (float) h);
-
-    fMin = color(currentDomain.x0, currentDomain.y0);
-    fMax = fMin;
-
-    float y = currentDomain.y0;
-
-    for(unsigned int i = 0; i <= getH(); ++i){
-	float x = currentDomain.x0;
-
-	for(unsigned int j = 0; j <= getW(); ++j){
-	    float z = color(x, y);
-	    fMin = std::min(z, fMin);
-	    fMax = std::max(z, fMax);
-	    x += dx;
-	}
-
-	y += dy;
-    }
 }
 
 class RiplingGLImage : public GLImageFonctionelSelections {
@@ -141,7 +96,7 @@ RiplingGLImage::RiplingGLImage(RiplingFunctionalImage *ptrImageFonctionel) : GLI
 
     float PI = atan(1) * 4;
 
-    dt = 2 * PI / (float) 360;
+    dt = 2 * PI / (float) 36;//00;
 }
 
 void RiplingGLImage::idleFunc(){
@@ -156,15 +111,15 @@ extern int launchApplication(){
     char** argv = NULL;
     GLUTWindowManagers::init(0, argv);
 
-    float xMin = -5;
-    float xMax = +5;
-    float yMin = -5;
-    float yMax = +5;
+    float xMin = 0;
+    float xMax = 600;
+    float yMin = 0;
+    float yMax = 600;
 
     DomaineMaths domain(xMin, yMin, xMax - xMin, yMax - yMin);
    
-    int w = 800;
-    int h = 800;
+    int w = 600;
+    int h = 600;
 
     RiplingFunctionalImage* functionalImage = new RiplingFunctionalImage(w,h,domain);
     RiplingGLImage* functionSelections = new RiplingGLImage(functionalImage);
