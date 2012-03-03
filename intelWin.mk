@@ -4,26 +4,27 @@
 #
 # Contrainte
 #
-#	Dans les dï¿½finitions de variables ci-dessous, ne laisser jamais d'espace ï¿½ la fin!!!
+#	Dans les définitions de variables ci-dessous, ne laisser jamais d'espace à la fin!!!
 #
 
 #########
 #public #
 #########
 
+SRC_AUX:= ../PRODUCTION/commonExt/windows
+
 #Option de compilation 
-#Elles seront ensuite surchargï¿½es automatiquement (par exemple en fonction du type de la target)
+#Elles seront ensuite surchargées automatiquement (par exemple en fonction du type de la target)
 #Version minimale : Ne rien metter laisser vierge!
 CXXFLAGS:= /w 
-CXXFLAGS+= /QxSSSE3
-CXXFLAGS+= /O3 /fast /Qparallel /Qpar-threshold100  
+CXXFLAGS+= /O3 /QxSSSE3 /Qparallel /Qpar-threshold100  
 CXXFLAGS+= /Qopenmp
 
 #Option de compilation Static Lib 
 ARFLAGS:=
 
 #Option de linkage
-#Elles seront ensuite surchargï¿½es automatiquement (par exemple en fonction du type de la target)
+#Elles seront ensuite surchargées automatiquement (par exemple en fonction du type de la target)
 #Version minimale : Ne rien metter laisser vierge!
 LDFLAGS_AUX:=
 
@@ -34,12 +35,12 @@ CODE_DEFINE_VARIABLES:=WIN32
 
 #Minimum: rien!
 #true (ou n'importe quoi) pour activer!
-IS_DEFAULT_SYS_LIBRARY_ENABLE:=
-IS_ADVANCED_SYS_LIBRARY_ENABLE:=
+IS_DEFAULT_SYS_LIBRARY_ENABLE:=yes
+IS_ADVANCED_SYS_LIBRARY_ENABLE:=yes
 
 #separateur est espace
 EXCLUDE_LIBRARY_FILES:=
-ADD_LIBRARY_FILES:=
+ADD_LIBRARY_FILES:=kernel32.lib gdi32.lib opengl32.lib glu32.lib
 
 #########
 #Private#
@@ -47,7 +48,6 @@ ADD_LIBRARY_FILES:=
 
 COMPILATEUR:=INTEL
 OS:=Win
-USER=${USERNAME}
 
 ROOT_MAKEFILE_PRIVATE:=../PRODUCTION/MANAGER/makefile/private
 -include dataProject.mk

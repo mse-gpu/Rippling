@@ -10,6 +10,8 @@
 #public #
 #########
 
+SRC_AUX:= ../PRODUCTION/commonExt/windows
+
 #Option de compilation 
 #Elles seront ensuite surchargées automatiquement (par exemple en fonction du type de la target)
 #Version minimale : Ne rien metter laisser vierge!
@@ -17,6 +19,7 @@ CXXFLAGS:= /w
 CXXFLAGS+= /EHsc 
 CXXFLAGS+= /Ox 
 CXXFLAGS+= /openmp
+
 #Option de compilation Static Lib 
 ARFLAGS:=
 
@@ -30,14 +33,14 @@ CODE_DEFINE_VARIABLES:=WIN32
 #WIN32 pour cppTest
 #CODE_DEFINE_VARIABLES:=LINUX_CBI
 
-#Minimum: rien!
+
 #true (ou n'importe quoi) pour activer!
-IS_DEFAULT_SYS_LIBRARY_ENABLE:=
-IS_ADVANCED_SYS_LIBRARY_ENABLE:=
+IS_DEFAULT_SYS_LIBRARY_ENABLE:=y
+IS_ADVANCED_SYS_LIBRARY_ENABLE:=y
 
 #separateur : espace
 EXCLUDE_LIBRARY_FILES:=
-ADD_LIBRARY_FILES:=
+ADD_LIBRARY_FILES:=kernel32.lib gdi32.lib opengl32.lib glu32.lib
 
 #########
 #Private#
@@ -45,7 +48,6 @@ ADD_LIBRARY_FILES:=
 
 COMPILATEUR:=VISUAL
 OS:=Win
-USER=${USERNAME}
 
 ROOT_MAKEFILE_PRIVATE:=../PRODUCTION/MANAGER/makefile/private
 -include dataProject.mk
