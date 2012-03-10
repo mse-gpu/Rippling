@@ -8,7 +8,7 @@
 #include "GLImageFonctionelSelections.h"
 #include "CalibreurCudas.h"
 
-#define THREADS 5
+#define THREADS 12
 
 class RipplingFunctionalImageOMP : public ImageFonctionelSelectionMOOs {
     public:
