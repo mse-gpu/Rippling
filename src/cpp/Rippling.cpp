@@ -5,11 +5,7 @@
 #include "Rippling.hpp"
 
 RipplingImage::RipplingImage(int m, int n, DomaineMaths domain) : ImageFonctionelSelectionMOOs(m,n,domain), t(1) {
-    onDomaineChangePerformed(domain);
-}
-
-RipplingImage::~RipplingImage() {
-    //Nothing to release
+    //Nothing to init
 }
 
 void RipplingImage::setT(float newT){

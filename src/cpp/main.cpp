@@ -13,8 +13,8 @@ int launchApplication();
 int launchApplicationOMP();
 
 int main(void){
-    //return launchApplication();
-    return  launchApplicationOMP();
+    return launchApplication();
+    //return  launchApplicationOMP();
 }
 
 void display(RipplingImage* image);

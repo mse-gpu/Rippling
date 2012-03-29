@@ -9,7 +9,6 @@
 class RipplingImage : public ImageFonctionelSelectionMOOs {
     public:
 	RipplingImage(int m, int n, DomaineMaths domain);
-	virtual ~RipplingImage();
 
 	void setT(float t);
 
