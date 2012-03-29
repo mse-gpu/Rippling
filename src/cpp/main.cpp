@@ -3,6 +3,8 @@
 
 #include "omp.h"
 
+#include "Chronos.h"
+
 #include "Rippling.hpp"
 #include "RipplingSequential.hpp"
 #include "RipplingOMP.hpp"
@@ -11,10 +13,12 @@
 
 int launchApplication();
 int launchApplicationOMP();
+int bench();
 
 int main(void){
-    return launchApplication();
+    //return launchApplication();
     //return  launchApplicationOMP();
+    return bench();
 }
 
 void display(RipplingImage* image);
@@ -51,4 +55,25 @@ void display(RipplingImage* image){
 
     delete image;
     delete glImage;
+}
+
+int bench(){
+    std::cout << "Launch a benchmark" << std::endl;
+
+    Chronos chronos;
+    chronos.start();
+
+
+
+    chronos.stop();
+    chronos.print("Sequential Version");
+
+    chronos.start();
+
+
+
+    chronos.stop();
+    chronos.print("OMP Version");
+
+    return 0;
 }
