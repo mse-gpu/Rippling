@@ -7,6 +7,8 @@
 #include "RipplingSequential.hpp"
 #include "RipplingOMP.hpp"
 
+#define DIM 600
+
 int launchApplication();
 int launchApplicationOMP();
 
@@ -22,9 +24,8 @@ int launchApplicationOMP(){
 
     std::cout << "Launch the application with OMP" << std::endl;
 
-    int dim = 600;
-    DomaineMaths domain(0, 0, dim, dim);
-    display(new RipplingImageOMP(dim, dim, domain));
+    DomaineMaths domain(0, 0, DIM, DIM);
+    display(new RipplingImageOMP(DIM, DIM, domain));
 
     return 0;
 }
@@ -32,9 +33,8 @@ int launchApplicationOMP(){
 int launchApplication(){
     std::cout << "Launch the application" << std::endl;
 
-    int dim = 600;
-    DomaineMaths domain(0, 0, dim, dim);
-    display(new RipplingImageSequential(dim, dim, domain));
+    DomaineMaths domain(0, 0, DIM, DIM);
+    display(new RipplingImageSequential(DIM, DIM, domain));
 
     return 0;
 }
