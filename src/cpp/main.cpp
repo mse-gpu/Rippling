@@ -22,7 +22,7 @@ void display(RipplingImage* image);
 int launchApplicationOMP(){
     omp_set_num_threads(THREADS);
 
-    std::cout << "Launch the application with OMP" << std::endl;
+    std::cout << "Launch the OMP Rippling application" << std::endl;
 
     DomaineMaths domain(0, 0, DIM, DIM);
     display(new RipplingImageOMP(DIM, DIM, domain));
@@ -31,7 +31,7 @@ int launchApplicationOMP(){
 }
 
 int launchApplication(){
-    std::cout << "Launch the application" << std::endl;
+    std::cout << "Launch the sequential Rippling application" << std::endl;
 
     DomaineMaths domain(0, 0, DIM, DIM);
     display(new RipplingImageSequential(DIM, DIM, domain));
