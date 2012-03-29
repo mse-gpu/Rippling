@@ -6,7 +6,7 @@
 #include "GLUTWindowManagers.h"
 #include "ImageFonctionelSelectionMOOs.h"
 #include "GLImageFonctionelSelections.h"
-#include "CalibreurCudas.h"
+//#include "CalibreurCudas.h"
 
 class RipplingFunctionalImage : public ImageFonctionelSelectionMOOs {
     public:

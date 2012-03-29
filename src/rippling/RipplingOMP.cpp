@@ -6,7 +6,7 @@
 #include "GLUTWindowManagers.h"
 #include "ImageFonctionelSelectionMOOs.h"
 #include "GLImageFonctionelSelections.h"
-#include "CalibreurCudas.h"
+//#include "CalibreurCudas.h"
 
 #define THREADS 12
 
