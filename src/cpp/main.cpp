@@ -4,7 +4,7 @@
 
 #include "omp.h"
 
-#include "Chronos.h"
+#include "ChronoOMPs.h"
 
 #include "Rippling.hpp"
 #include "RipplingSequential.hpp"
@@ -58,7 +58,7 @@ void display(RipplingImage* image){
     delete glImage;
 }
 
-#define DIM_BENCH 50000
+#define DIM_BENCH 100000
 #define THREADS 24
 
 float d(float x, float y){
@@ -128,20 +128,22 @@ inline void benchParallel(){
 int bench(){
     std::cout << "Launch a benchmark" << std::endl;
 
-    Chronos chronos;
+    ChronoOMPs chronos;
     chronos.start();
 
     benchSequential();
 
-    chronos.stop();
-    chronos.print("Sequential Version");
+    double timeSequential = chronos.timeElapse();
+    std::cout << "Sequential version took " << timeSequential << "s" << std::endl;
 
     chronos.start();
 
     benchParallel();
 
-    chronos.stop();
-    chronos.print("OMP Version");
+    double timeParallel = chronos.timeElapse();
+    std::cout << "OMP version took " << timeParallel << "s" << std::endl;
+
+    std::cout << "Factor=" << (timeSequential / timeParallel) << std::endl;
 
     return 0;
 }
