@@ -58,7 +58,7 @@ void display(RipplingImage* image){
     delete glImage;
 }
 
-#define DIM_BENCH 100000
+#define DIM_BENCH 500000
 #define THREADS 24
 
 float d(float x, float y){
@@ -131,7 +131,7 @@ int bench(){
     ChronoOMPs chronos;
     chronos.start();
 
-    benchSequential();
+    //benchSequential();
 
     double timeSequential = chronos.timeElapse();
     std::cout << "Sequential version took " << timeSequential << "s" << std::endl;
