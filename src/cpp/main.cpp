@@ -58,33 +58,50 @@ void display(RipplingImage* image){
     delete glImage;
 }
 
-#define DIM_BENCH 500000
+#define DIM_H 25000
+#define DIM_W 25000
+#define TIMES 25
+
 #define THREADS 24
 
+struct rgba {
+	int r;
+	int g;
+	int b;
+	int a;
+};
+
+void setFloatRGBA(rgba* image, int i, int j, int r, int g, int b, int a){
+    image[i * (DIM_H) + j].r = r;
+    image[i * (DIM_H) + j].g = g;
+    image[i * (DIM_H) + j].b = b;
+    image[i * (DIM_H) + j].a = a;
+}
+
 float d(float x, float y){
-    float fx = x - (DIM_BENCH / 2);
-    float fy = y - (DIM_BENCH / 2);
+    float fx = x - (DIM_W / 2);
+    float fy = y - (DIM_H / 2);
 
     return sqrt(fx * fx + fy * fy);
 }
 
-float color(float x, float y, float t){
+float color(float x, float y, int t){
     return 128 + 127 * ((cos(d(x,y) / (float)10 -(t / (float)7))) / (d(x,y) / 10 + 1));
 }
 
-inline void benchSequential(){
-    DomaineMaths domain(0, 0, DIM_BENCH, DIM_BENCH);
+inline void benchSequential(rgba* image){
+    DomaineMaths domain(0, 0, DIM_W, DIM_H);
 
-    float dx = (float) (domain.dx / (float) DIM_BENCH);
-    float dy = (float) (domain.dy / (float) DIM_BENCH);
+    float dx = (float) (domain.dx / (float) DIM_W);
+    float dy = (float) (domain.dy / (float) DIM_H);
     float y = domain.y0;
 
     float t = 1;
 
-    for(int i = 1; i <= DIM_BENCH; ++i){
+    for(int i = 1; i <= DIM_W; ++i){
 	float x = domain.x0;
 
-	for(int j = 1; j <= DIM_BENCH; ++j){
+	for(int j = 1; j <= DIM_H; ++j){
 	    float c = color(x,y,t);
 
 	    x += dx;
@@ -94,11 +111,11 @@ inline void benchSequential(){
     }
 }
 
-inline void benchParallel(){
-    DomaineMaths domain(0, 0, DIM_BENCH, DIM_BENCH);
+inline void benchParallel(rgba* image){
+    DomaineMaths domain(0, 0, DIM_W, DIM_H);
 
-    const float dx = (float) (domain.dx / (float) DIM_BENCH);
-    const float dy = (float) (domain.dy / (float) DIM_BENCH);
+    const float dx = (float) (domain.dx / (float) DIM_W);
+    const float dy = (float) (domain.dy / (float) DIM_H);
 
     float t = 1;
 
@@ -109,10 +126,10 @@ inline void benchParallel(){
 
 	float y = domain.y0 + tid * dy;
 
-	while(i <= DIM_BENCH){
+	while(i <= DIM_W){
 	    float x = domain.x0;
 
-	    for(int j = 1; j <= DIM_BENCH; ++j){
+	    for(int j = 1; j <= DIM_H; ++j){
 		float c = color(x,y,t);
 
 		x += dx;
@@ -126,24 +143,34 @@ inline void benchParallel(){
 }
 
 int bench(){
-    std::cout << "Launch a benchmark" << std::endl;
+    std::cout << "Launch the Rippling benchmark" << std::endl;
+
+    rgba* image = (rgba*) calloc(sizeof(rgba),  (DIM_H + 1) * (DIM_W + 1));
 
     ChronoOMPs chronos;
     chronos.start();
 
-    //benchSequential();
+    for(int i = 0; i < TIMES; ++i){
+	benchSequential(image);
+    }
 
     double timeSequential = chronos.timeElapse();
-    std::cout << "Sequential version took " << timeSequential << "s" << std::endl;
+    std::cout << "Sequential Total (" << TIMES << " times) " << timeSequential << "s" << std::endl;
+    std::cout << "Sequential Mean  (" << TIMES << " times) " << (timeSequential / TIMES) << "s" << std::endl;
 
     chronos.start();
 
-    benchParallel();
+    for(int i = 0; i < TIMES; ++i){
+	benchParallel(image);
+    }
 
     double timeParallel = chronos.timeElapse();
-    std::cout << "OMP version took " << timeParallel << "s" << std::endl;
+    std::cout << "OMP Total (" << TIMES << " times) " << timeParallel << "s" << std::endl;
+    std::cout << "OMP Mean  (" << TIMES << " times) " << (timeParallel / TIMES) << "s" << std::endl;
 
     std::cout << "Factor=" << (timeSequential / timeParallel) << std::endl;
+
+    free(image);
 
     return 0;
 }
