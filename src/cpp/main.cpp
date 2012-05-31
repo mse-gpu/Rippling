@@ -58,8 +58,8 @@ void display(RipplingImage* image){
     delete glImage;
 }
 
-#define DIM_H 25000
-#define DIM_W 25000
+#define DIM_H 3000
+#define DIM_W 3000
 #define TIMES 25
 
 #define THREADS 24
@@ -104,6 +104,8 @@ inline void benchSequential(rgba* image){
 	for(int j = 1; j <= DIM_H; ++j){
 	    float c = color(x,y,t);
 
+	    setFloatRGBA(image, i, j, c,c,c,255);
+
 	    x += dx;
 	}
 
@@ -131,6 +133,8 @@ inline void benchParallel(rgba* image){
 
 	    for(int j = 1; j <= DIM_H; ++j){
 		float c = color(x,y,t);
+
+		setFloatRGBA(image, i, j, c,c,c,255);
 
 		x += dx;
 	    }
